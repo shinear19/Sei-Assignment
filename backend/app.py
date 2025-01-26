@@ -6,14 +6,15 @@ from pymongo.errors import ServerSelectionTimeoutError
 from bson.objectid import ObjectId
 import threading
 import time
-
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 
 # Enable CORS for frontend at http://localhost:5173 only
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
 # MongoDB connection URI
-app.config["MONGO_URI"] = "mongodb+srv://rohit960211:Rohit@cluster0.qfbl9nq.mongodb.net/test?retryWrites=true&w=majority"
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 client = MongoClient(app.config["MONGO_URI"], serverSelectionTimeoutMS=5000)
 db = client.get_database()
 
